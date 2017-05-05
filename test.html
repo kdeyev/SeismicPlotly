@@ -1,0 +1,118 @@
+<!DOCTY/PE html>
+<html>
+<head>
+  <script src="plotly.min.js"></script>
+  <script src="fft.js" type="application/javascript"></script>
+  
+</head>
+<div id="wavelet" style="width:100%;height:100%;"></div>
+<div id="comb_spectrum" style="width:100%;height:100%;"></div>
+<div id="spectrum" style="width:90%;height:100%;"></div>
+
+<body>
+	<script type="text/javascript">	
+		var time = [];
+		var ampl = [];
+		var dt = 0.001;
+		for (var i = -0.100;i<=0.100;i+=dt) {
+			time.push(i);
+			var v = i*1000;
+			ampl.push(Math.sin(v)/v);
+		}
+		
+		var time_wavelet = {
+			x: time,
+			y: ampl,
+			name: 'Wavelet',
+			line: {shape: 'spline'},
+		};
+		
+		var layout = {
+			xaxis: {
+				title: 'Time'
+			},
+			yaxis: {
+				title: 'Amplitude',
+			},
+			title:'Wavelet'
+		};
+
+		Plotly.plot( "wavelet", [time_wavelet], layout );
+			
+		var real = new Array(ampl.length);
+		var imag = new Array(ampl.length);
+		
+		for (var i=0;i<ampl.length;i++) {
+			real [i] = ampl[i];
+			imag [i] = 0;
+		}
+		
+		transform (real, imag)
+		
+		var a = new Array (real.length);
+		var ph = new Array (real.length);
+		var fr = new Array (real.length);
+		var max_fr = 0.5/dt;
+		var dfr = max_fr/real.length*2
+		
+		for (var i=0;i<real.length/2;i++) {
+			a[i] = real[i]**2 + imag[i]**2;
+			ph[i] = Math.atan2(real[i], imag[i])* (180/Math.PI);
+			fr[i] = i * dfr;
+		}
+				
+		var ampl = {
+		  x: fr,
+		  y: a,
+		  type: 'scatter',
+		  name: 'Amplitude',
+		  line: {shape: 'spline'},
+		};
+
+		var phase = {
+		  x: fr,
+		  y: ph,
+		  xaxis: 'x',
+		  yaxis: 'y2',
+		  type: 'scatter',
+		  name: 'Phase',
+		  line: {shape: 'spline'},
+		};
+
+		var layout = {
+		  xaxis: {
+			domain: [0, 1],
+			title: 'Frequency'
+		  },
+		  yaxis: {
+		  	domain: [0, 0.40],
+			title: 'Amplitude',
+		  },
+		  yaxis2: {
+			domain: [0.60, 1],
+			title: 'Phase',
+		  },
+		  title: 'Spectrum'
+		};
+
+		Plotly.newPlot('spectrum', [ampl, phase], layout);
+		
+		var layout = {
+		  title: 'Combined spectrum',
+		  yaxis: {title: 'Amplitude'},
+		  yaxis2: {
+			title: 'Phase',
+			titlefont: {color: 'rgb(148, 103, 189)'},
+			tickfont: {color: 'rgb(148, 103, 189)'},
+			overlaying: 'y',
+			side: 'right'
+		  }
+		};
+		
+		
+		Plotly.newPlot('comb_spectrum', [ampl, phase], layout);
+		
+		
+	</script>
+</body>
+</html>
