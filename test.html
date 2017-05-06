@@ -7,10 +7,19 @@
 </head>
 <div id="wavelet" style="width:100%;height:100%;"></div>
 <div id="comb_spectrum" style="width:100%;height:100%;"></div>
-<div id="spectrum" style="width:90%;height:100%;"></div>
+<div id="spectrum" style="width:100%;height:100%;"></div>
 
 <body>
 	<script type="text/javascript">	
+	
+		var config = {
+			modeBarButtonsToRemove : ["sendDataToCloud", ],
+			displaylogo: false,
+			displayModeBar: true,
+			//scrollZoom: true,
+			//editable: true,
+		};
+	
 		var time = [];
 		var ampl = [];
 		var dt = 0.001;
@@ -37,7 +46,7 @@
 			title:'Wavelet'
 		};
 
-		Plotly.plot( "wavelet", [time_wavelet], layout );
+		Plotly.plot( "wavelet", [time_wavelet], layout, config );
 			
 		var real = new Array(ampl.length);
 		var imag = new Array(ampl.length);
@@ -95,7 +104,7 @@
 		  title: 'Spectrum'
 		};
 
-		Plotly.newPlot('spectrum', [ampl, phase], layout);
+		Plotly.newPlot('spectrum', [ampl, phase], layout, config);
 		
 		var layout = {
 		  title: 'Combined spectrum',
@@ -110,7 +119,7 @@
 		};
 		
 		
-		Plotly.newPlot('comb_spectrum', [ampl, phase], layout);
+		Plotly.newPlot('comb_spectrum', [ampl, phase], layout, config);
 		
 		
 	</script>
