@@ -144,18 +144,66 @@
 				zmax : zmax,
 				colorscale : [[0, 'rgb(0,0,255)'], [0.5, 'rgb(255,255,255)'], [1, 'rgb(255,0,0)']],
 				//colorbar : {symmetric: true,}
-			  }
-			;
+			};
+			
+			var x = new Array(twoDArray.length);
+			var y1 = new Array(twoDArray.length);
+			var y2 = new Array(twoDArray.length);
+			var y3 = new Array(twoDArray.length);
+			for (var i=0;i<twoDArray.length;i++) {
+				x[i] = i;
+				y1[i] = i;
+				y2[i] = twoDArray.length - i;
+				y3[i] = Math.abs(twoDArray.length/2 - i);
+			}
+			
+ 			var line1 = {
+			  x: x,
+			  y: y1,
+			  xaxis: 'x',
+			  yaxis: 'y2',
+			  type: 'scatter',
+			  name: 'Line1',
+			  //line: {shape: 'spline'},
+			};
+
+ 			var line2 = {
+			  x: x,
+			  y: y2,
+			  xaxis: 'x',
+			  yaxis: 'y2',
+			  type: 'scatter',
+			  name: 'Line2',
+			  //line: {shape: 'spline'},
+			};
+ 			var line3 = {
+			  x: x,
+			  y: y3,
+			  xaxis: 'x',
+			  yaxis: 'y2',
+			  type: 'scatter',
+			  name: 'Line3',
+			  //line: {shape: 'spline'},
+			};
 			
 			var layout = {
 			  title: 'Stack',
 			  xaxis: {title: 'CMP'},
-			  yaxis: {title: 'Time', autorange: 'reversed',},
+			  yaxis2: {
+				domain: [0.7, 1.0],
+				title: 'Header',
+				//overlaying: 'y',
+				//side: 'right'
+			  }, 
+			  yaxis: {title: 'Time', 
+				  domain: [0.0, 0.7],
+				  autorange: 'reversed',
+			  },
 			  //colorbar : {symmetric: true,}
-			  };
+			};
 			
 
-			Plotly.plot('stack', [stack], layout, config);
+			Plotly.plot('stack', [stack, line1, line2, line3], layout, config);
 		}
 		
 		function wiggle () {
