@@ -398,6 +398,11 @@
 		wiggle ();
 		velocity_semb ();
 		polar ();
+		
+		window.onresize = function() {
+			Plotly.Plots.resize(document.getElementById("stack"));
+		};
+
 	</script>
 </body>
 </html>
