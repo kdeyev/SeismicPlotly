@@ -1,4 +1,6 @@
-# plotly_poc
+# SeismicPlotly
+
+Experiments with seismic data visualization in web using JavaScript library Plotly.js.
 
 Example:
 
